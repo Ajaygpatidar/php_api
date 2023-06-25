@@ -1,0 +1,23 @@
+<?php  
+header('Content-type:Application/json');
+header('Access-Control-Allow-Origin:*');
+
+
+$data=json_decode(file_get_contents("php://input"),true);
+
+$sid=$data['sid'];
+include 'config.php';
+$sql="select*from students where id='$sid'";
+$res=mysqli_query($conn,$sql);
+if(mysqli_num_rows($res)> 0)
+{
+    $output = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    echo json_encode($output);
+}
+else
+{
+    echo json_encode(array("message" => "data not found" , "status" => "false"));
+}
+
+
+?>
